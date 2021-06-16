@@ -32,3 +32,7 @@ _Note this is still an early release so there are a number of planned features n
    $ python3 -m anity invoke
 ```
 9. Login to [anity.io](https://anity.io) to view your test results where your can inspect each suite and the results of each test ran. Results provide whether the test passed of failed, the tests average runtime, and average pass rate (over a configurable range of time)
+
+
+![Suite summary](images/summary.png?raw=true "Summary")
+![Suite test results](images/test_results.png?raw=true "Results")
