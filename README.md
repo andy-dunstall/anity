@@ -15,9 +15,10 @@ _Note this is still an early release so there are a number of planned features n
    $ cd anity-cli
 ```
 4. Add an environment variable `ANITY_API_KEY=your_api_key`,
-5. Zip up your Python `unittest` suite
+5. Zip up your Python `unittest` suite. See `fake_package/` for the directory
+structure.
 ```bash
-   $ zip -r mysuite.zip mysuite/
+   $ zip -r fake_package.zip fake_package
 ```
 6. Install the requirements
 ```bash
