@@ -16,7 +16,7 @@ def anity():
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--dev', is_flag=True, help='run against the staging api')
 def update(path, dev):
-    api_key = _get_api_key()
+    api_key = _get_api_key(dev)
     if api_key is None:
         return
     url = _url('v1/suite', dev)
@@ -37,7 +37,7 @@ def update(path, dev):
 @anity.command()
 @click.option('--dev', is_flag=True, help='run against the staging api')
 def invoke(dev):
-    api_key = _get_api_key()
+    api_key = _get_api_key(dev)
     if api_key is None:
         return
     url = _url('v1/invoke', dev)
@@ -56,10 +56,11 @@ def invoke(dev):
         raise ValueError('tests failed')
 
 
-def _get_api_key():
-    api_key = os.environ.get('ANITY_API_KEY', None)
+def _get_api_key(dev):
+    env = 'ANITY_DEV_API_KEY' if dev else 'ANITY_API_KEY'
+    api_key = os.environ.get(env, None)
     if api_key is None:
-        print(f"missing 'ANITY_API_KEY' environment variable")
+        print(f"missing '{env}' environment variable")
     return api_key
 
 
