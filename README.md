@@ -1,15 +1,18 @@
 # Anity CLI
-[anity.io](https://anity.io) is an uptime monitoring tool built around the Python `unittest` framework. This was built with the aim of making uptime monitoring simpler for software engineers rather than trying to configure monitoring tools with complicated GUIs enabling:
-* Writing tests with Python,
+[anity.io](https://anity.io) is an uptime monitoring tool built around the Python `unittest` framework. This was built with the aim of making uptime monitoring simpler for software engineers rather than trying to configure monitoring tools with complicated GUIs. This enables:
+* Writing your uptime tests with Python,
 * Adding your monitoring tests to version control,
 * Updating your monitoring tests and running as part of your CI/CD pipelines.
+
+All tests are currently run every 15 minutes (which will be configurable in a future release).
 
 _Note this is still an early release so there are a number of planned features not yet available such as configuring how often your tests run, alerts when tests fail, monitoring response times, etc... Feedback is appreciated emailing andy@anity.io._
 
 ## Setup
 1. Sign in at [anity.io](https://anity.io),
-2. Find your API key in the top right,
-3. Clone the anity-cli (this repo)
+2. Create a monitor,
+3. View the monitor settings to get your API key,
+4. Clone the anity-cli (this repo)
 ```bash
    $ git clone ...
    $ cd anity-cli
