@@ -47,7 +47,6 @@ def invoke(dev):
     results = resp.json()
     ok = True
     for t in results:
-        print(t)
         if t['status'] != 'pass':
             ok = False
         print(f"{t['service_name']} {t['test_name']} {t['timestamp']} {t['runtime']} {t['status']}")
