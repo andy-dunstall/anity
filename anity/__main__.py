@@ -55,6 +55,18 @@ def invoke(dev):
         raise ValueError('tests failed')
 
 
+@anity.command()
+@click.option('--dev', is_flag=True, help='run against the staging api')
+def invoke_async(dev):
+    api_key = _get_api_key(dev)
+    if api_key is None:
+        return
+    url = _url('v1/invoke/async', dev)
+    resp = requests.post(url, json={'api_key': api_key})
+    if resp.status_code != 200:
+        print(f'failed to invoke api [{resp.status_code}]')
+
+
 def _get_api_key(dev):
     env = 'ANITY_DEV_API_KEY' if dev else 'ANITY_API_KEY'
     api_key = os.environ.get(env, None)
