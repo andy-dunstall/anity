@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
+import base64
 import json
 import os
+import sys
 
 import click
 import requests
@@ -19,17 +21,11 @@ def update(path, dev):
     api_key = _get_api_key(dev)
     if api_key is None:
         return
-    url = _url('v1/suite', dev)
+    url = _url(f'scheduler/v1/suite/{api_key}', dev)
 
     name = os.path.basename(path)
     with open(path, 'rb') as f:
-        resp = requests.put(
-            url,
-            files={
-                'package': (name, f.read()),
-                'api_key': (None, api_key),
-            }
-        )
+        resp = requests.put(url, data=base64.b64encode(f.read()))
         if resp.status_code != 200:
             print(f'failed to update tests [{resp.status_code}]')
 
@@ -40,8 +36,8 @@ def invoke(dev):
     api_key = _get_api_key(dev)
     if api_key is None:
         return
-    url = _url('v1/invoke', dev)
-    resp = requests.post(url, json={'api_key': api_key})
+    url = _url(f'scheduler/v1/invoke/{api_key}', dev)
+    resp = requests.post(url)
     if resp.status_code != 200:
         print(f'failed to invoke api [{resp.status_code}]')
     results = resp.json()
@@ -52,7 +48,7 @@ def invoke(dev):
         print(f"{t['service_name']} {t['test_name']} {t['timestamp']} {t['runtime']} {t['status']}")
 
     if not ok:
-        raise ValueError('tests failed')
+        sys.exit(-1)
 
 
 @anity.command()
@@ -61,8 +57,8 @@ def invoke_async(dev):
     api_key = _get_api_key(dev)
     if api_key is None:
         return
-    url = _url('v1/invoke/async', dev)
-    resp = requests.post(url, json={'api_key': api_key})
+    url = _url(f'scheduler/v1/invoke/{api_key}/async', dev)
+    resp = requests.post(url)
     if resp.status_code != 200:
         print(f'failed to invoke api [{resp.status_code}]')
 
@@ -76,7 +72,7 @@ def _get_api_key(dev):
 
 
 def _url(path, dev):
-    domain = 'api.dev.anity.io' if dev else 'api.anity.io'
+    domain = 'api2.dev.anity.io' if dev else 'api2.anity.io'
     return f'https://{domain}/{path}'
 
 
