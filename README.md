@@ -49,5 +49,4 @@ structure.
 
 
 ![Suite summary](images/summary.png?raw=true "Summary")
-![Suite test results](images/test_results.png?raw=true "Results")
-![Suite test results](images/showoutput.png?raw=true "Results")
+![Suite test results](images/results.png?raw=true "Results")
