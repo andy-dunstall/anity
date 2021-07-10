@@ -1,6 +1,8 @@
 # Anity CLI
 [anity.io](https://anity.io) is an uptime monitoring tool that enables developers to monitor their APIs using system tests written in Python rather than traditional ‘ping’ tests.
 
+![Suite summary](images/summary.png?raw=true "Summary")
+
 Each monitor has an associated test suite written in Python with the `unittest` framework. The monitor will then run your test suite on a configured schedule. All results from the test suite are recorded and can be configured to configure an alerts when tests fail. Each test case run can be inspected which will include the tests output, runtime and status.
 
 Writing your system tests in Python enables:
@@ -35,6 +37,4 @@ structure.
 ```
 9. In [anity.io](https://anity.io) view your monitor summary and inspect test results.
 
-
-![Suite summary](images/summary.png?raw=true "Summary")
 ![Suite test results](images/results.png?raw=true "Results")
