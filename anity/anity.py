@@ -1,7 +1,4 @@
-#!/usr/bin/python3
-
 import base64
-import json
 import os
 import sys
 
@@ -10,11 +7,11 @@ import requests
 
 
 @click.group()
-def anity():
+def cli():
     pass
 
 
-@anity.command()
+@cli.command()
 @click.argument('path', type=click.Path(exists=True))
 @click.option('--dev', is_flag=True, help='run against the staging api')
 def update(path, dev):
@@ -23,14 +20,13 @@ def update(path, dev):
         return
     url = _url(f'scheduler/v1/suite/{api_key}', dev)
 
-    name = os.path.basename(path)
     with open(path, 'rb') as f:
         resp = requests.put(url, data=base64.b64encode(f.read()))
         if resp.status_code != 200:
             print(f'failed to update tests [{resp.status_code}]')
 
 
-@anity.command()
+@cli.command()
 @click.option('--dev', is_flag=True, help='run against the staging api')
 def invoke(dev):
     api_key = _get_api_key(dev)
@@ -51,7 +47,7 @@ def invoke(dev):
         sys.exit(-1)
 
 
-@anity.command()
+@cli.command()
 @click.option('--dev', is_flag=True, help='run against the staging api')
 def invoke_async(dev):
     api_key = _get_api_key(dev)
@@ -74,7 +70,3 @@ def _get_api_key(dev):
 def _url(path, dev):
     domain = 'api2.dev.anity.io' if dev else 'api2.anity.io'
     return f'https://{domain}/{path}'
-
-
-if __name__ == '__main__':
-    anity()
