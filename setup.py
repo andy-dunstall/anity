@@ -7,7 +7,7 @@ README = (PKG / 'README.md').read_text()
 setup(
     name='anity',
     version='0.1.0',
-    description='...',
+    description='Deploy monitor test suites in anity.io',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://anity.io',
