@@ -1,52 +1,37 @@
 # Anity CLI
-[anity.io](https://anity.io) is an uptime monitoring tool built to enable running more complex system tests rather than the standard 'ping' requests provided by other services.
+[anity.io](https://anity.io) enables developers to monitor their APIs using system tests written in
+Python rather than traditional ‘ping’ tests.
 
-Test suites in Anity are written in Python with the `unittest` framework. This means:
-* Software engineers can quickly write system tests rather than deal with with complex GUI configurations. Such as creating an account, performing some action, then deleting that account,
-* Test suites can be version controlled,
-* Tests can be updated via the Anity CLI as part of the systems deployment CI/CD pipeline to ensure the tests remain up to date.
+This CLI is used to deploy and invoke test suites for your monitors.
 
-## Features
-* Test suites are run every 15 minutes (this will be confiurable in a future release),
-* View a summary of each test suite including the current status (passing / failing), average pass rate and average runtime,
-* View each individual test run and output for the failed tests,
-* Create multiple monitors
-
-### Priority Features
-* Notifications when tests fail. The first interation of notifications will use [Pushover](https://pushover.net/),
-* Configurable scheduling of when test suites run. This will support both a rate (such as every 5 minutes) and cron (such as Saturdays at 2am).
-
-_Note this is still an early release so feedback is appreciated by emailing andy@anity.io_
-
-## Setup
-This section lists the setup process to create your first monitor and upload your test suite.
-1. Sign in at [anity.io](https://anity.io),
-2. Create a monitor and view the monitors settings to get your API key,
-3. Clone the anity-cli (this repo)
+## Installation
 ```bash
-   $ git clone ...
-   $ cd anity-cli
+  pip install anity
 ```
-4. Add an environment variable `ANITY_API_KEY=your_api_key`,
-5. Zip up your Python `unittest` suite. See `fake_package/` for the directory
-structure.
-```bash
-   $ zip -r fake_package.zip fake_package
-```
-6. Install the requirements
-```bash
-   $ pip3 install -r requirements.txt
-```
-7. Add your test suite to anity. This will start invoking your tests every 15 minutes (soon to be configurable):
-```bash
-   $ python3 -m anity update mysuite.zip
-```
-8. Optionally invoke your test suite to check its working as expected. This will print the test results to stdout
-```bash
-   $ python3 -m anity invoke
-```
-9. In [anity.io](https://anity.io) view your monitor summary and inspect test results.
 
+## Usage
 
-![Suite summary](images/summary.png?raw=true "Summary")
-![Suite test results](images/results.png?raw=true "Results")
+### Deploy Test Suite
+To deploy your test suite you'll first need to create a new monitor at
+[anity.io](https://anity.io), where you'll be given an API key for the monitor.
+
+Package up your test suite with `zip`. Anity runs test using a
+custom implementation of `unittest discover` so anything that works with
+`unittest` will work in Anity.
+```bash
+  zip -r mysuite.zip mysuite/
+```
+
+Then deploy your test suite to your monitor with
+```bash
+  anity update PATH API_KEY
+```
+
+For example
+```bash
+  anity update mysuite.zip 2a91-85ba-4ceb
+```
+
+## Help
+If you have any problems getting setup please contact us at [info@anity.io](mailto:info@anity.io)
+and we'll respond as soon as possible.

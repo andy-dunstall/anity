@@ -13,11 +13,9 @@ def cli():
 
 @cli.command()
 @click.argument('path', type=click.Path(exists=True))
+@click.argument('api-key')
 @click.option('--dev', is_flag=True, help='run against the staging api')
-def update(path, dev):
-    api_key = _get_api_key(dev)
-    if api_key is None:
-        return
+def update(path, api_key, dev):
     url = _url(f'scheduler/v1/suite/{api_key}', dev)
 
     with open(path, 'rb') as f:
@@ -27,16 +25,15 @@ def update(path, dev):
 
 
 @cli.command()
+@click.argument('api-key')
 @click.option('--dev', is_flag=True, help='run against the staging api')
-def invoke(dev):
-    api_key = _get_api_key(dev)
-    if api_key is None:
-        return
+def invoke(api_key, dev):
     url = _url(f'scheduler/v1/invoke/{api_key}', dev)
     resp = requests.post(url)
     if resp.status_code != 200:
         print(f'failed to invoke api [{resp.status_code}]')
     results = resp.json()
+    print(results)
     ok = True
     for t in results:
         if t['status'] != 'pass':
@@ -48,23 +45,13 @@ def invoke(dev):
 
 
 @cli.command()
+@click.argument('api-key')
 @click.option('--dev', is_flag=True, help='run against the staging api')
-def invoke_async(dev):
-    api_key = _get_api_key(dev)
-    if api_key is None:
-        return
+def invoke_async(api_key, dev):
     url = _url(f'scheduler/v1/invoke/{api_key}/async', dev)
     resp = requests.post(url)
     if resp.status_code != 200:
         print(f'failed to invoke api [{resp.status_code}]')
-
-
-def _get_api_key(dev):
-    env = 'ANITY_DEV_API_KEY' if dev else 'ANITY_API_KEY'
-    api_key = os.environ.get(env, None)
-    if api_key is None:
-        print(f"missing '{env}' environment variable")
-    return api_key
 
 
 def _url(path, dev):
