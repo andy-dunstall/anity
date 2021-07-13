@@ -29,7 +29,8 @@ Then deploy your test suite to your monitor with
 
 For example
 ```bash
-  anity update mysuite.zip 2a91-85ba-4ceb
+  zip -r fake_package.zip fake_package
+  anity update fake_package.zip 2a91-85ba-4ceb
 ```
 
 ## Help
